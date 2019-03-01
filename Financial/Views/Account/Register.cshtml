@@ -1,0 +1,115 @@
+﻿@model Financial.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>Sign In | Bootstrap Based Admin Template - Material Design</title>
+    <!-- Favicon-->
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <!-- Waves Effect Css -->
+    <link href="~/Content/waves.css" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+
+<body class="signup-page">
+    <div class="signup-box">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-login", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="logo">
+                <a href="javascript:void(0);">Fin<b>Port</b></a>
+                <small>A better way to Budget</small>
+            </div>
+            <div class="card">
+                <div class="body">
+                    
+                        <div class="msg">Register a new membership</div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">person</i>
+                            </span>
+                            <div class="form-line">
+                                @Html.TextBoxFor(m => m.FirstName, new { placeholder = "First Name", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">person</i>
+                            </span>
+                            <div class="form-line">
+                                @Html.TextBoxFor(m => m.LastName, new { placeholder = "Last Name", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">email</i>
+                            </span>
+                            <div class="form-line">
+                                @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock</i>
+                            </span>
+                            <div class="form-line">
+                                @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">lock</i>
+                            </span>
+                            <div class="form-line">
+                                @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">SIGN UP</button>
+                        <div class="m-t-25 m-b--5 align-center">
+                            @Html.ActionLink("Login Page", "Login", "Account")
+                            <br />
+                            @Html.ActionLink("Forgot Password", "ForgotPassword", "Account")
+                        </div>
+                   
+                </div>
+            </div>
+        }
+
+
+    </div>
+    <!-- Jquery Core Js -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap Core Js -->
+    <script src="~/Scripts/bootstrap.js"></script>
+    <!-- Waves Effect Plugin Js -->
+    <script src="~/Scripts/waves.js"></script>
+    <!-- Validation Plugin Js -->
+
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <!-- Custom Js -->
+    <script src="~/Scripts/admin.js"></script>
+    <script src="~/Scripts/sign-in.js"></script>
+</body>
+
+    
+</html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
