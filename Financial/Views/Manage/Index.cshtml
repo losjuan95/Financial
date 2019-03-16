@@ -1,30 +1,15 @@
 ﻿@model Financial.Models.IndexViewModel
+@using Financial.Helper
+@using Microsoft.AspNet.Identity
+@using Financial.Models
+
 @{
     ViewBag.Title = "Manage";
+    var house = new HouseHelper();
+    var db = new ApplicationDbContext();
+    var userroles = new UserRolesHelpers();
+
 }
-
-
-
-
-<dt>Password:</dt>
-<dd>
-    [
-    @if (Model.HasPassword)
-    {
-        @Html.ActionLink("Change your password", "ChangePassword", "Manage")
-    }
-    else
-    {
-        @Html.ActionLink("Create", "SetPassword")
-    }
-    ]
-</dd>
-<dt>External Logins:</dt>
-<dd>
-    @Model.Logins.Count [
-    @Html.ActionLink("Manage", "ManageLogins") ]
-</dd>
-
 
 @*profile page that i have yet to decide where im going to put it or if im going to make a new view or use the manage index like i did in my last project*@
 <div class="page-loader-wrapper">
@@ -293,37 +278,41 @@
                                     </form>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade in" id="change_password_settings">
-                                    <form class="form-horizontal">
-                                        <div class="form-group">
-                                            <label for="OldPassword" class="col-sm-3 control-label">Old Password</label>
-                                            <div class="col-sm-9">
-                                                <div class="form-line">
-                                                    <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" required>
+                                    @Html.ActionLink("Change Password", "ChangePassword", "Manage", null, new { @class = "btn btn-danger" })
+                                    @*@using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <div class="form-group">
+                                                <label for="OldPassword" class="col-sm-3 control-label">Old Password</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-line">
+                                                        <input type="password" class="form-control" id="OldPassword" name="OldPassword" placeholder="Old Password" required>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="NewPassword" class="col-sm-3 control-label">New Password</label>
-                                            <div class="col-sm-9">
-                                                <div class="form-line">
-                                                    <input type="password" class="form-control" id="NewPassword" name="NewPassword" placeholder="New Password" required>
+                                            <div class="form-group">
+                                                <label for="NewPassword" class="col-sm-3 control-label">New Password</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-line">
+                                                        <input type="password" class="form-control" id="NewPassword" name="NewPassword" placeholder="New Password" required>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="NewPasswordConfirm" class="col-sm-3 control-label">New Password (Confirm)</label>
-                                            <div class="col-sm-9">
-                                                <div class="form-line">
-                                                    <input type="password" class="form-control" id="NewPasswordConfirm" name="NewPasswordConfirm" placeholder="New Password (Confirm)" required>
+                                            <div class="form-group">
+                                                <label for="NewPasswordConfirm" class="col-sm-3 control-label">New Password (Confirm)</label>
+                                                <div class="col-sm-9">
+                                                    <div class="form-line">
+                                                        <input type="password" class="form-control" id="NewPasswordConfirm" name="NewPasswordConfirm" placeholder="New Password (Confirm)" required>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-offset-3 col-sm-9">
-                                                <button type="submit" class="btn btn-danger">SUBMIT</button>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-3 col-sm-9">
+                                                    <button type="submit" class="btn btn-danger">SUBMIT</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        }*@
                                 </div>
                             </div>
                         </div>

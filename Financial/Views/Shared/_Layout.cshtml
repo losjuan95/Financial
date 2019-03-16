@@ -1,4 +1,16 @@
-﻿<!DOCTYPE html>
+﻿@using Financial.Models
+@using Financial.Helper
+@using Microsoft.AspNet.Identity
+@using Financial.ViewModels
+@using Financial.Controllers
+@{
+    var db = new ApplicationDbContext();
+    var userid = HttpContext.Current.User.Identity.GetUserId();
+    var user = db.Users.Find(userid);
+}
+<link rel="icon" href="~/img/core icon 1.png" />
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,9 +34,12 @@
     <link href="~/Content/style.css" rel="stylesheet" />
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="~/Content/all-themes.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
+
 </head>
 <body class="theme-red">
-   
+
     <!-- Overlay For Sidebars -->
     <div class="overlay"></div>
     <!-- #END# Overlay For Sidebars -->
@@ -53,6 +68,14 @@
                     <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="material-icons">search</i></a></li>
                     <!-- #END# Call Search -->
                     <!-- Notifications -->
+                    @*@if (TempData["Warning"] != null)
+                        {
+                            var message = (MessageVM)TempData["Warning"];
+                            <div class="alert @message.CssClassName">
+                                <strong>@message.Title</strong>
+                                @message.Message
+                            </div>
+                        }*@
                     <li class="dropdown">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                             <i class="material-icons">notifications</i>
@@ -254,19 +277,28 @@
                     <img src="~/images/default.jpg" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">John Doe</div>
-                    <div class="email">john.doe@example.com</div>
+                    <div data-toggle="dropdown">@user.FirstName</div>
+                    <div>@user.Email</div>
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li>
+                                <a href="@Url.Action("Index","Manage")">
+                                    <i class="material-icons">person</i>
+                                    Profile
+                                </a>
+                            </li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                            <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
+                            <li>
+                                <a href="@Url.Action("ChangePassword","Manage")">
+                                    <i class="material-icons">lock</i>
+                                    <span>Change Password</span>
+                                </a>
+                            </li>
+
                             <li role="separator" class="divider"></li>
                             <li><a href="@Url.Action("LogOff", "Account")"><i class="material-icons">input</i>Sign Out</a></li>
-                            <li>@Html.ActionLink("Sign Out", "LogOff", "Account")</li>
+
                         </ul>
                     </div>
                 </div>
@@ -279,13 +311,44 @@
                     <li class="active">
                         <a href="@Url.Action("Index","Home")">
                             <i class="material-icons">home</i>
-                            <span>Home</span>
+                            <span>DashBoard</span>
                         </a>
                     </li>
-                    <li class="active pull-left">
+                    <li class="active ">
                         <a href="@Url.Action("Index","Manage")">
                             <i class="material-icons">person</i>
                             <span>Profile</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a href="@Url.Action("Lobby","Home")">
+                            <i class="material-icons">add_to_queue</i>
+                            <span>Lobby</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("Index","Accounts")">
+                            <i class="material-icons">attach_money</i>
+                            <span>Bank Accounts</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("Index","Budgets")">
+                            <i class="material-icons">attach_money</i>
+                            <span>Budget</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("Index","BudgetItems")">
+                            <i class="material-icons">attach_money</i>
+                            <span>BudgetItems</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="@Url.Action("Index","Transactions")">
+                            <i class="material-icons">attach_money</i>
+                            <span>Transactions</span>
                         </a>
                     </li>
                 </ul>
@@ -446,39 +509,46 @@
         <!-- #END# Right Sidebar -->
     </section>
     @RenderBody()
-  
-        <!-- Jquery Core Js -->
-        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-        <!-- Bootstrap Core Js -->
-        <script src="~/Scripts/bootstrap.js"></script>
-        <!-- Select Plugin Js -->
-        <script src="~/Scripts/bootstrap-select.js"></script>
-        <!-- Slimscroll Plugin Js -->
-        <script src="~/Scripts/jquery.slimscroll.js"></script>
-        <!-- Waves Effect Plugin Js -->
-        <script src="~/Scripts/waves.js"></script>
-        <!-- Jquery CountTo Plugin Js -->
-        <script src="~/Scripts/jquery.countTo.js"></script>
-        <!-- Morris Plugin Js -->
-        <script src="~/Scripts/raphael.min.js"></script>
-        <script src="~/Scripts/morris.js"></script>
-        <!-- ChartJs -->
-        <script src="~/Scripts/Chart.bundle.js"></script>
-        <!-- Flot Charts Plugin Js -->
-        <script src="~/Scripts/jquery.flot.js"></script>
-        <script src="~/Scripts/jquery.flot.resize.js"></script>
-        <script src="~/Scripts/jquery.flot.pie.js"></script>
-        <script src="~/Scripts/jquery.flot.categories.js"></script>
-        <script src="~/Scripts/jquery.flot.time.js"></script>
 
-        <!-- Sparkline Chart Plugin Js -->
-        <script src="~/Scripts/jquery.sparkline.js"></script>
+    <!-- Jquery Core Js -->
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap Core Js -->
+    <script src="~/Scripts/bootstrap.js"></script>
+    <!-- Select Plugin Js -->
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <!-- Slimscroll Plugin Js -->
+    <script src="~/Scripts/jquery.slimscroll.js"></script>
+    <!-- Waves Effect Plugin Js -->
+    <script src="~/Scripts/waves.js"></script>
+    <!-- Jquery CountTo Plugin Js -->
+    <script src="~/Scripts/jquery.countTo.js"></script>
+    <!-- Morris Plugin Js -->
+    <script src="~/Scripts/raphael.min.js"></script>
+    <script src="~/Scripts/morris.js"></script>
+    <!-- ChartJs -->
+    <script src="~/Scripts/Chart.bundle.js"></script>
+    <!-- Flot Charts Plugin Js -->
+    <script src="~/Scripts/jquery.flot.js"></script>
+    <script src="~/Scripts/jquery.flot.resize.js"></script>
+    <script src="~/Scripts/jquery.flot.pie.js"></script>
+    <script src="~/Scripts/jquery.flot.categories.js"></script>
+    <script src="~/Scripts/jquery.flot.time.js"></script>
 
-        <!-- Custom Js -->
-        <script src="~/Scripts/admin.js"></script>
-        <script src="~/Scripts/index.js"></script>
-        <!-- Demo Js -->
-        <script src="~/Scripts/demo.js"></script>
+    <!-- Sparkline Chart Plugin Js -->
+    <script src="~/Scripts/jquery.sparkline.js"></script>
+
+    <!-- Custom Js -->
+    <script src="~/Scripts/admin.js"></script>
+    <script src="~/Scripts/index.js"></script>
+    <!-- Demo Js -->
+    <script src="~/Scripts/demo.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+
     @RenderSection("scripts", required: false)
+    <script>
+        $(document).ready(function () {
+            $('.jq-data').DataTable();
+        });
+    </script>
 </body>
 </html>

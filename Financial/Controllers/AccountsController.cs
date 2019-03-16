@@ -6,18 +6,22 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Financial.Helper;
 using Financial.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Financial.Controllers
 {
     public class AccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private BankAccountHelper ba = new BankAccountHelper();
+        private HouseHelper hou = new HouseHelper();
         // GET: Accounts
         public ActionResult Index()
         {
             var accounts = db.Accounts.Include(a => a.HouseHold);
+            var useraccounts = ba.ListUserAccount(User.Identity.GetUserId()).ToList();
             return View(accounts.ToList());
         }
 
@@ -37,10 +41,15 @@ namespace Financial.Controllers
         }
 
         // GET: Accounts/Create
+        [Authorize(Roles = "HOH, Member")]
         public ActionResult Create()
         {
-            ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description");
-            return View();
+            var houseId = db.Users.Find(User.Identity.GetUserId()).HouseHoldId;
+            var newaccount = new Account
+            {
+                HouseHoldId = (int)houseId
+            };
+            return View(newaccount);
         }
 
         // POST: Accounts/Create
@@ -56,8 +65,9 @@ namespace Financial.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var house = hou.ListUserHouse();
 
-            ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description", account.HouseHoldId);
+            ViewBag.HouseHoldId = new SelectList( house, "Id", "Description", account.HouseHoldId);
             return View(account);
         }
 

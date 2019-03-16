@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Financial.Models
@@ -89,6 +90,53 @@ namespace Financial.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+    public class AcceptRegisterViewModel
+    {
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+
+        public int Id { get; set; }
+        public int HouseHoldId { get; set; }
+
+        [MaxLength(200), MinLength(4)]
+        public string Body { get; set; }
+
+        [Required]
+        public Guid KeyCode { get; set; }
+
+       
+
+        public DateTime Created { get; set; }
+        public DateTime? Accepted { get; set; }
+        public DateTime Expires { get; set; }
+
+        public bool Expired { get; set; }
+
+        public virtual HouseHold HouseHold { get; set; }
+    }
+
 
     public class ResetPasswordViewModel
     {

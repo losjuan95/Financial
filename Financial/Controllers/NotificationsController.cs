@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Financial.Models;
+using Financial.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace Financial.Controllers
 {
@@ -17,10 +19,19 @@ namespace Financial.Controllers
         // GET: Notifications
         public ActionResult Index()
         {
+            var userid = User.Identity.GetUserId();
             var notifications = db.Notifications.Include(n => n.HouseHold).Include(n => n.Recipient);
             return View(notifications.ToList());
+
         }
 
+        public ActionResult MarkAsRead(int id)
+        {
+            var notification = db.Notifications.Find(id);
+            db.Notifications.Attach(notification);
+            notification.Read = true;
+            return Redirect(Request.ServerVariables["http_referer"]);
+        }
         // GET: Notifications/Details/5
         public ActionResult Details(int? id)
         {
@@ -33,6 +44,8 @@ namespace Financial.Controllers
             {
                 return HttpNotFound();
             }
+          
+
             return View(notification);
         }
 
@@ -53,6 +66,18 @@ namespace Financial.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                try
+                {
+                    TempData["Warning"] = new MessageVM() { CssClassName = "alert-danger", Title = "Oh-Oh!", Message = "Warning Overdraft" };
+                }
+                catch(Exception IDk)
+                {
+                    TempData["Overdraft"] = new MessageVM() { CssClassName = "alert-Error", Title = "Oh-No!", Message = "OverDraft Occured" };
+                }    
+
+                    
+                
                 db.Notifications.Add(notification);
                 db.SaveChanges();
                 return RedirectToAction("Index");

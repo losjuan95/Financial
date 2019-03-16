@@ -1,8 +1,24 @@
-﻿<section class="content">
+﻿@model Financial.Models.ApplicationUser
+@using Financial.Models
+@using Financial.Helper
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Create";
+    var AccountHelper = new BankAccountHelper();
+    ApplicationDbContext db = new ApplicationDbContext();
+    var currentuserid = HttpContext.Current.User.Identity.GetUserId();
+    var householdinfo = new HouseHelper();
+    var user = db.Users.Find(currentuserid);
+    var userroles = new UserRolesHelpers();
+}
+
+
+<section class="content">
     <div class="container-fluid">
         <div class="block-header">
             <h2>DASHBOARD</h2>
         </div>
+       
         <!-- Widgets -->
         <div class="row clearfix">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -12,7 +28,7 @@
                     </div>
                     <div class="content">
                         <div class="text">NEW TASKS</div>
-                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                        <div class="number count-to" data-from="0" data-to="" data-speed="15" data-fresh-interval="20"></div>
                     </div>
                 </div>
             </div>
@@ -28,13 +44,12 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-light-green hover-expand-effect">
+                <div class="info-box bg-light-green ">
                     <div class="icon">
                         <i class="material-icons">forum</i>
                     </div>
                     <div class="content">
-                        <div class="text">NEW COMMENTS</div>
-                        <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                        @Html.ActionLink("Invite","Create","Invitations")
                     </div>
                 </div>
             </div>
@@ -152,27 +167,28 @@
             <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                 <div class="card">
                     <div class="body bg-teal">
-                        <div class="font-bold m-b--35">ANSWERED TICKETS</div>
+                        <div class="font-bold m-b--35">HouseHold Info</div>
                         <ul class="dashboard-stat-list">
+                            
                             <li>
-                                TODAY
-                                <span class="pull-right"><b>12</b> <small>TICKETS</small></span>
+                                Memebers
+                                <span class="pull-right"><b></b> <small>Members</small></span>
                             </li>
                             <li>
-                                YESTERDAY
-                                <span class="pull-right"><b>15</b> <small>TICKETS</small></span>
+                                Accounts
+                                <span class="pull-right"><b>@householdinfo.ListAccounts().Count</b> <small>Account</small></span>
                             </li>
                             <li>
-                                LAST WEEK
-                                <span class="pull-right"><b>90</b> <small>TICKETS</small></span>
+                                Transactions
+                                <span class="pull-right"><b>@householdinfo.ListUserTransactions().Count</b> <small>Transactions</small></span>
                             </li>
                             <li>
-                                LAST MONTH
-                                <span class="pull-right"><b>342</b> <small>TICKETS</small></span>
+                                Budgets
+                                <span class="pull-right"><b>@householdinfo.ListUserBudgets().Count</b> <small>Budgets</small></span>
                             </li>
                             <li>
-                                LAST YEAR
-                                <span class="pull-right"><b>4 225</b> <small>TICKETS</small></span>
+                                Budget Items
+                                <span class="pull-right"><b>@householdinfo.ListBudgetItems().Count</b> <small>Budget Items</small></span>
                             </li>
                             <li>
                                 ALL

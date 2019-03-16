@@ -14,15 +14,15 @@
     <meta content="" name="description">
 
     <!-- Favicons -->
-    <link href="img/favicon.png" rel="icon">
-    <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link rel="icon" href="~/img/core icon 1.png" />
+
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic|Raleway:400,300,700" rel="stylesheet">
 
     <!-- Bootstrap CSS File -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
+    <link href="~/Content/Custom Image.css" rel="stylesheet" />
     <!-- Main Stylesheet File -->
     <link href="~/Content/style4pratt.css" rel="stylesheet" />
 
@@ -45,7 +45,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand smothscroll" href="#home"><b>FinPort</b></a>
+                <a class="navbar-brand smothscroll" href="#home"><b><strong>Fin</strong>Port</b></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -53,6 +53,10 @@
                     <li><a href="#desc" class="smothscroll">Description</a></li>
                     <li><a href="#showcase" class="smothscroll">Showcase</a></li>
                     <li><a href="#contact" class="smothscroll">Contact</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li >@Html.ActionLink("Log In", "Login", "Account")</li>
+                    <li >@Html.ActionLink("Register", "Register", "Account")</li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -64,24 +68,24 @@
             <div class="container">
                 <div class="row centered">
                     <div class="col-lg-12">
-                        <h1>Welcome To <b>Pratt</b></h1>
-                        <h3>Show your product with this handsome theme.</h3>
+                        <h1>Welcome To <b>FinPort</b></h1>
+                        <h3> A Better Way To Budget.</h3>
                         <br>
                     </div>
 
                     <div class="col-lg-2">
                         <h5>Amazing Results</h5>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-                        <img class="hidden-xs hidden-sm hidden-md" src="img/arrow1.png">
+                        <p>Dedicating to make your finances yours to keep. </p>
+                        <img class="hidden-xs hidden-sm hidden-md "  />
                     </div>
                     <div class="col-lg-8">
-                        <img class="img-responsive" src="img/app-bg.png" alt="">
+                        <img class="img-responsive" src="~/images/screencapture-localhost-50487-Home-Index-2019-03-06-20_43_11.png" alt="">
                     </div>
                     <div class="col-lg-2">
                         <br>
-                        <img class="hidden-xs hidden-sm hidden-md" src="img/arrow2.png">
-                        <h5>Awesome Design</h5>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <img class="hidden-xs hidden-sm hidden-md"  />
+                        <h5>Fun Way To budget.</h5> 
+                        <p>Easy navigation with amazing features</p>
                     </div>
                 </div>
             </div>
@@ -96,23 +100,23 @@
         <div id="intro">
             <div class="container">
                 <div class="row centered">
-                    <h1>Designed To Excel</h1>
+                    <h1>About Us</h1>
                     <br>
                     <br>
                     <div class="col-lg-4">
                         <img src="img/intro01.png" alt="">
-                        <h3>Community</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <h3>What is FinPort</h3>
+                        <p>FinPort is a Financial Portal designed to help you better budget and keep track of your your finances </p>
                     </div>
                     <div class="col-lg-4">
                         <img src="img/intro02.png" alt="">
-                        <h3>Schedule</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <h3>Why FinPort</h3>
+                        <p>FinPort is dedicated to help you better recognize where your needs to be met. FinPort will notify of all your accounts activity as well as help you see other options that will help you excel. </p>
                     </div>
                     <div class="col-lg-4">
                         <img src="img/intro03.png" alt="">
-                        <h3>Monitoring</h3>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <h3>What to Expect</h3>
+                        <p>As a user you can expect to have your account information secured as well as accurate.</p>
                     </div>
                 </div>
                 <br>
@@ -129,7 +133,7 @@
                     <br>
                     <br>
                     <div class="col-lg-6 centered">
-                        <img class="centered" src="img/mobile.png" alt="">
+                        <img class="centered" src="" alt="">
                     </div>
 
                     <div class="col-lg-6">
@@ -146,10 +150,7 @@
                                 <!-- /accordion-heading -->
                                 <div id="collapseOne" class="accordion-body collapse in">
                                     <div class="accordion-inner">
-                                        <p>
-                                            @Html.ActionLink("Login", "Login", "Account")
-
-                                        </p>
+                                       
                                     </div>
                                     <!-- /accordion-inner -->
                                 </div>
@@ -257,59 +258,6 @@
     </section>
 
 
-    <section id="contact" name="contact">
-        <div id="footerwrap">
-            <div class="container">
-                <div class="col-lg-5">
-                    <h3>Address</h3>
-                    <p>
-                        Av. Greenville 987,<br /> New York,<br /> 90873
-                        <br /> United States
-                    </p>
-                </div>
-
-                <div class="col-lg-7">
-                    <h3>Drop Us A Line</h3>
-
-                    <br>
-                    <form class="contact-form php-mail-form" role="form" action="contactform/contactform.php" method="POST">
-
-                        <div class="form-group">
-                            <label for="contact-name">Your Name</label>
-                            <input type="name" name="name" class="form-control" id="contact-name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                            <div class="validate"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-email">Your Email</label>
-                            <input type="email" name="email" class="form-control" id="contact-email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-                            <div class="validate"></div>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-subject">Subject</label>
-                            <input type="text" name="subject" class="form-control" id="contact-subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
-                            <div class="validate"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="contact-message">Your Message</label>
-                            <textarea class="form-control" name="message" id="contact-message" placeholder="Your Message" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
-                            <div class="validate"></div>
-                        </div>
-
-                        <div class="loading"></div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                        <div class="form-send">
-                            <button type="submit" class="btn btn-large">Send Message</button>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </section>
     <div id="copyrights">
         <div class="container">
             <p>

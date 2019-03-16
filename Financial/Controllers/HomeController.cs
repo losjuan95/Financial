@@ -12,6 +12,7 @@ namespace Financial.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "HOH, Member")]
         public ActionResult Index()
         {
             return View();

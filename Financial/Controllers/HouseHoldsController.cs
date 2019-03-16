@@ -4,10 +4,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using bugtracker.Helpers;
 using Financial.Enumerations;
+using Financial.Helper;
 using Financial.Models;
 using Microsoft.AspNet.Identity;
 
@@ -17,8 +18,12 @@ namespace Financial.Controllers
     {
         UserRolesHelpers RolesHelpers = new UserRolesHelpers();
         private ApplicationDbContext db = new ApplicationDbContext();
+        AuthorizeHelper Authorize = new AuthorizeHelper();
+
 
         // GET: HouseHolds
+        [Authorize(Roles = "HOH, Member")]
+
         public ActionResult Index()
         {
             return View(db.HouseHolds.ToList());
@@ -29,12 +34,16 @@ namespace Financial.Controllers
         {
             var userId = User.Identity.GetUserId();
             var householdid = db.Users.Find(userId).HouseHoldId;
-            var house = db.HouseHolds.Find(userId);
+            var house = db.HouseHolds.Find(householdid);
 
-            return View();
+            
+
+            return View(house);
         }
 
         // GET: HouseHolds/Details/5
+        [Authorize(Roles = "HOH, Member")]
+
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -60,7 +69,7 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Name,Greeting")] HouseHold houseHold)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Description,Name,Greeting")] HouseHold houseHold)
         {
             if (ModelState.IsValid)
             {
@@ -71,11 +80,12 @@ namespace Financial.Controllers
                 var user = db.Users.Find(userId);
                 user.HouseHoldId = houseHold.Id;
                 //db.Entry(user.Id).Property;
+
                 db.SaveChanges();
 
-
-
                 RolesHelpers.AddUserToRole(userId, RoleName.HOH);
+
+                await AuthorizeHelper.ReauthorizeUserAsync(userId);
 
                 return RedirectToAction("Dashboard");
             }
@@ -110,6 +120,19 @@ namespace Financial.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser applicationUser = db.Users.Find(houseHold);
+
+                var currentroles = RolesHelpers.ListUserRoles(applicationUser.Id);
+                foreach (var role in currentroles)
+                {
+                    RolesHelpers.RemoveUserFromRole(applicationUser.Id, role);
+
+                }
+                //if (!string.IsNullOrEmpty(houseHold.ToString()))
+                //{
+                //    RolesHelpers.AddUserToRole(applicationUser.Id, houseHold.ToString());
+                //}
+
                 db.Entry(houseHold).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

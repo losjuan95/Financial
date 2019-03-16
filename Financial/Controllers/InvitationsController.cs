@@ -4,9 +4,14 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Financial.Helper;
 using Financial.Models;
+using Microsoft.AspNet.Identity;
+using System.Net.Mail;
+using System.Web.Configuration;
 
 namespace Financial.Controllers
 {
@@ -14,6 +19,9 @@ namespace Financial.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public static AuthorizeHelper Authorize = new AuthorizeHelper();
+
+        
         // GET: Invitations
         public ActionResult Index()
         {
@@ -48,17 +56,47 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,HouseHoldId,Body,KeyCode,Email,Created,Accepted,Expires,Expired")] Invitation invitation)
+        public async Task <ActionResult> Create([Bind(Include = "Id,Body,Email")] Invitation invitation)
         {
+            
+         
             if (ModelState.IsValid)
             {
+
+                var usershouse = db.Users.Find(User.Identity.GetUserId()).HouseHoldId.GetValueOrDefault();
+                invitation.Created = DateTime.Now;
+                invitation.Expires = DateTime.Now.AddDays(1);
+                invitation.Expired = true;
+                invitation.KeyCode = Guid.NewGuid();
+                invitation.HouseHoldId = usershouse;
+                var from = $"FinPort<{WebConfigurationManager.AppSettings["emailfrom"]}>";
+                var callbackUrl = Url.Action("AcceptRegister", "Account", new { KeyCode = invitation.KeyCode, Email = invitation.Email}, protocol: Request.Url.Scheme);
+
+                var message = new MailMessage(from, invitation.Email)
+                {
+                    Subject = "FinPort Invite",
+                    Body = "<a href=\"" + callbackUrl + "\">click</a>",
+                    IsBodyHtml = true
+                    
+                };
+
+                var emailService = new PersonalEmail();
+                await emailService.SendAsync(message);
+
                 db.Invitations.Add(invitation);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+        
+               
+          
 
             ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description", invitation.HouseHoldId);
+            //await AuthorizeHelper.ReauthorizeUserAsync(userId);
+
             return View(invitation);
+
+            
         }
 
         // GET: Invitations/Edit/5

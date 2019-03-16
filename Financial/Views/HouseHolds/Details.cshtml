@@ -1,42 +1,54 @@
 ﻿@model Financial.Models.HouseHold
-
+@using Financial.Helper
+@using Microsoft.AspNet.Identity
+@using Financial.Models
 @{
-    ViewBag.Title = "Details";
+    var db = new ApplicationDbContext();
+    var houseHelper = new HouseHelper();
+    var userroles = new UserRolesHelpers();
 }
 
-<h2>Details</h2>
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
 
-<div>
-    <h4>HouseHold</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <div>
+                <h4>HouseHold</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Greeting)
-        </dt>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Greeting)
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Greeting)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.Greeting)
+                    </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </p>
+        </div>
+    </div>
+</section>
+
+
+

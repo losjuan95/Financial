@@ -11,6 +11,9 @@ using Microsoft.Owin.Security;
 using Financial.Models;
 using System.Web.Configuration;
 using System.Net.Mail;
+using Financial.Helper;
+using Financial.Enumerations;
+
 
 namespace Financial.Controllers
 {
@@ -19,6 +22,11 @@ namespace Financial.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        public static AuthorizeHelper Authorize = new AuthorizeHelper();
+        public ApplicationDbContext db = new ApplicationDbContext();
+        public UserRolesHelpers rolehelper = new UserRolesHelpers();
+
+        
 
         public AccountController()
         {
@@ -184,6 +192,56 @@ namespace Financial.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult AcceptRegister(Guid keycode, string email)
+        {
+            var vm = new AcceptRegisterViewModel();
+            vm.KeyCode = keycode;
+            vm.Email = email;
+
+            return View(vm);
+        }
+
+
+        // POST: /Account/AcceptRegister for the invitations
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AcceptRegister(AcceptRegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var invite = db.Invitations.Where(i => i.KeyCode == model.KeyCode).FirstOrDefault();
+
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    HouseHoldId = invite.HouseHoldId
+                };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                var userid = user.Id;
+
+                rolehelper.AddUserToRole(userid, RoleName.Member);
+
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                   
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
+                    return RedirectToAction("DashBoard", "HouseHolds");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -228,7 +286,7 @@ namespace Financial.Controllers
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
 
-                var from = $"BugTracker<{WebConfigurationManager.AppSettings["emailfrom"]}>";
+                var from = $"FinPort<{WebConfigurationManager.AppSettings["emailfrom"]}>";
                 var message = new MailMessage(from, model.Email)
                 {
                     Subject = "Reset Password",
@@ -412,8 +470,8 @@ namespace Financial.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

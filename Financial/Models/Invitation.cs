@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Financial.Models
 {
@@ -11,6 +12,7 @@ namespace Financial.Models
         public int Id { get; set; }
         public int HouseHoldId { get; set; }
 
+        [AllowHtml]
         [MaxLength(200), MinLength(4)]
         public string Body { get; set; }
 

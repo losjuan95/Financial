@@ -4,61 +4,66 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <h3>Are you sure you want to delete this?</h3>
+            <div>
+                <h4>Budget</h4>
+                <hr />
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.HouseHold.Description)
+                    </dt>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Budget</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseHold.Description)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.HouseHold.Description)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.HouseHold.Description)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TargetTotal)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TargetTotal)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TargetTotal)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TargetTotal)
-        </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CurrentTotal)
+                    </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentTotal)
-        </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.CurrentTotal)
+                    </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CurrentTotal)
-        </dd>
+                </dl>
 
-    </dl>
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Delete" class="btn btn-default" /> |
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                }
+            </div>
         </div>
-    }
-</div>
+    </div>
+</section>

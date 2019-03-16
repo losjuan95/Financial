@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Financial.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Financial.Controllers
 {
@@ -37,11 +38,12 @@ namespace Financial.Controllers
         }
 
         // GET: Transactions/Create
+        [Authorize(Roles ="HOH, Member")]
         public ActionResult Create()
         {
+         
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "Name");
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name");
-            ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -50,18 +52,20 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,Description,Date,Amount,Type,EnteredById,Reconciled,ReconciledAmount,BudgetItemId")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,AccountId,Description,Amount,Type,Reconciled,ReconciledAmount,BudgetItemId")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
+                
+                transaction.EnteredById = User.Identity.GetUserId();
+                transaction.Date = DateTime.Now;
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");
-            }
 
+            }
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "Name", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            ViewBag.EnteredById = new SelectList(db.Users, "Id", "FirstName", transaction.EnteredById);
             return View(transaction);
         }
 
