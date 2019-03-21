@@ -192,6 +192,7 @@
     <Compile Include="Helper\BankAccountHelper.cs" />
     <Compile Include="Helper\BudgetHelper.cs" />
     <Compile Include="Helper\BudgetItemHelper.cs" />
+    <Compile Include="Helper\FileUploadValidator.cs" />
     <Compile Include="Helper\HouseHelper.cs" />
     <Compile Include="Helper\TransactionHelper.cs" />
     <Compile Include="Helper\UserRolesHelper.cs" />
@@ -217,6 +218,7 @@
   <ItemGroup>
     <Content Include="Content\all-themes.css" />
     <Content Include="Content\animate.css" />
+    <Content Include="Content\bootstrap-fileupload.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -239,6 +241,7 @@
     <Content Include="images\money2.jpg" />
     <Content Include="images\screencapture-localhost-50487-Home-Index-2019-03-06-20_43_11.png" />
     <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\bootstrap-fileupload.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -271,6 +274,7 @@
     <Content Include="Scripts\morris.js" />
     <Content Include="Scripts\raphael.min.js" />
     <Content Include="Scripts\sign-in.js" />
+    <Content Include="Scripts\jquery.dcjqaccordion.2.7.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
     <Content Include="Scripts\tinymce\license.txt" />
     <Content Include="Scripts\tinymce\plugins\advlist\plugin.js" />
@@ -470,6 +474,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

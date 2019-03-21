@@ -1,71 +1,233 @@
 ﻿@model Financial.Models.Account
-
+@using Financial.Enumerations
 @{
     ViewBag.Title = "Details";
+
 }
 
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <div>
-                <h4>Account</h4>
-                <hr />
-                <dl class="dl-horizontal">
-                    <dt>
-                        @Html.DisplayNameFor(model => model.HouseHold)
-                    </dt>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Account</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.HouseHold)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.HouseHold.Name)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.HouseHold.Name)
+                        </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.Name)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.InitialBalance)
-                    </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.InitialBalance)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.InitialBalance)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.InitialBalance)
+                        </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.CurrentBalance)
-                    </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CurrentBalance)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.CurrentBalance)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.CurrentBalance)
+                        </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.ReconciledBalance)
-                    </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ReconciledBalance)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.ReconciledBalance)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.ReconciledBalance)
+                        </dd>
 
-                    <dt>
-                        @Html.DisplayNameFor(model => model.LowBalanceLimit)
-                    </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LowBalanceLimit)
+                        </dt>
 
-                    <dd>
-                        @Html.DisplayFor(model => model.LowBalanceLimit)
-                    </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.LowBalanceLimit)
+                        </dd>
 
-                </dl>
+                    </dl>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+
+                </div>
+                <div class="col-md-8">
+                    
+                        <p>
+                            @*@Html.ActionLink("Create New", "Create")*@
+                            <button class="btn btn-lg btn-primary" data-target="#addTransaction" data-toggle="modal">Add Transaction</button>
+                              
+                        </p>
+                        <table class="table jq-data">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().Amount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().Description)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().Date)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Transactions.FirstOrDefault().Type)
+                                    </th>
+
+                                    <th></th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Transactions.OrderByDescending(t => t.Date))
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Type)
+                                        </td>
+
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                           
+
+                        </table>
+                </div>
             </div>
-            <p>
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Back to List", "Index")
-            </p>
+                   
 
+               
         </div>
+             
+       
     </div>
 </section>
+
+
+
+<div id="addTransaction" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+
+               
+
+                            @using (Html.BeginForm("Create","Transactions", FormMethod.Post, new { @class = "form-horizontal" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.Id)
+                                <div class="form-horizontal">
+                                    <h4>Transaction</h4>
+                                    <hr />
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                   
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.Editor("Description")
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.Label("Amount", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.Editor("Amount")
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.Label("Type", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("Type", EnumHelper.GetSelectList(typeof(TransactionType)))
+                                        </div>
+                                    </div>
+                                    <br />
+
+
+                                    <div class="form-group">
+                                        @Html.Label("Reconciled", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            <div class="checkbox">
+                                                @Html.Editor("Reconciled")
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.Label("ReconciledAmount", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.Editor("ReconciledAmount")
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="form-group">
+                                        @Html.Label("BudgetItemId", "BudgetItemId", htmlAttributes: new { @class = "control-label col-md-4" })
+                                        <div class="col-md-8">
+                                            @Html.DropDownList("BudgetItemId")
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Create" class="btn btn-default" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <div>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                      
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

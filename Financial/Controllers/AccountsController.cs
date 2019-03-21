@@ -37,6 +37,14 @@ namespace Financial.Controllers
             {
                 return HttpNotFound();
             }
+            var budgetitems = new List<BudgetItem>();
+            foreach(var budget in db.Budgets.Where(b => b.HouseHoldId == account.HouseHoldId).ToList())
+            {
+                budgetitems.AddRange(budget.BudgetItems);
+            }
+
+            ViewBag.BudgetItemId = new SelectList( budgetitems, "Id", "Name");
+
             return View(account);
         }
 
@@ -83,7 +91,6 @@ namespace Financial.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description", account.HouseHoldId);
             return View(account);
         }
 

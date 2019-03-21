@@ -276,8 +276,12 @@
                     <img src="~/images/default.jpg" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div data-toggle="dropdown">@user.FirstName</div>
-                    <div>@user.Email</div>
+                    @if (user != null)
+                    {
+                        <div data-toggle="dropdown">@user.FirstName</div>
+                        <div>@user.Email</div>
+                    }
+
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
