@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+
 
 <section class="content">
     <div class="row">
@@ -34,35 +34,35 @@
                     </tr>
 
                 </thead>
-
-                @foreach (var item in Model)
-                {
                 <tbody>
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Budget.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TargetTotal)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CurrentTotal)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
-                    </tr>
 
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Budget.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TargetTotal)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CurrentTotal)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+
+                    }
                 </tbody>
-                }
 
             </table>
         </div>

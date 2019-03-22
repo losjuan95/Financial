@@ -14,11 +14,9 @@
             <table class="table jq-data">
                 <thead>
                     <tr>
+                        
                         <th>
-                            @Html.DisplayNameFor(model => model.HouseHold)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            @Html.DisplayName("Bank Account")
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.InitialBalance)
@@ -41,9 +39,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HouseHold.Description)
-                            </td>
+                           
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>

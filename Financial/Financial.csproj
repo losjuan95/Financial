@@ -240,6 +240,7 @@
     <Content Include="images\money1.jpeg" />
     <Content Include="images\money2.jpg" />
     <Content Include="images\screencapture-localhost-50487-Home-Index-2019-03-06-20_43_11.png" />
+    <Content Include="Scripts\modals.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\bootstrap-fileupload.js" />
     <Content Include="Scripts\bootstrap-select.js" />

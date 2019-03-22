@@ -1,58 +1,131 @@
-﻿@model Financial.Models.Budget
+﻿@using Financial.Models
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Details";
+    var currentuserId = HttpContext.Current.User.Identity.GetUserId();
+    ApplicationDbContext db = new ApplicationDbContext();
+    var user = db.Users.Find(currentuserId);
+
 }
 
-<h2>Details</h2>
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Budgets</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.HouseHold.Description)
+                        </dt>
 
-<div>
-    <h4>Budget</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseHold.Description)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.HouseHold.Description)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.HouseHold.Description)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Description)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TargetTotal)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TargetTotal)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.TargetTotal)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TargetTotal)
-        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CurrentTotal)
+                        </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CurrentTotal)
-        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.CurrentTotal)
+                        </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.CurrentTotal)
-        </dd>
+                    </dl>
+                    <p>
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                        @Html.ActionLink("Back to List", "Index")
+                    </p>
+                </div>
+                <div class="col-md-8">
+                    <p>
+                        <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Budget Item</button>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+                    </p>
+                    <table class="table jq-data">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.HouseHold)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Catergory")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TargetTotal)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CurrentTotal)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HouseHold.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TargetTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CurrentTotal)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    </td>
+                                </tr>
+
+
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</section>
+

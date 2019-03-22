@@ -52,21 +52,29 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,Description,Amount,Type,Reconciled,ReconciledAmount,BudgetItemId")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,Type,AccountId,Description,Amount,Reconciled,ReconciledAmount,BudgetItemId,Date")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-                
                 transaction.EnteredById = User.Identity.GetUserId();
                 transaction.Date = DateTime.Now;
+                
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
-                return RedirectToAction("Index");
 
             }
+            else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage));
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, message);
+            }
+
             ViewBag.AccountId = new SelectList(db.Accounts, "Id", "Name", transaction.AccountId);
             ViewBag.BudgetItemId = new SelectList(db.BudgetItems, "Id", "Name", transaction.BudgetItemId);
-            return View(transaction);
+            return RedirectToAction("Details", "Accounts", new { id = transaction.AccountId} );
+
         }
 
         // GET: Transactions/Edit/5
