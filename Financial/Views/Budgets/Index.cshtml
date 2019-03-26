@@ -4,66 +4,90 @@
     ViewBag.Title = "Index";
 }
 
-<section class="content">
-    <div class="container-fluid">
+<section class="content clearfix ">
+    <div class="container-fluid card">
+        <div class="header">
+            <h2>
+                BUDGETS
+            </h2>
+            <ul class="header-dropdown m-r--5">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        
+                        <li>
+                            <a href="javascript:void(0);">
+                                
+                                    @Html.ActionLink("Create New", "Create")
+                                
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
         <div class="block-header">
 
-            <p>
-                @Html.ActionLink("Create New", "Create")
-            </p>
-            <table class="table jq-data">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.HouseHold)
-                        </th>
-                        <th>
-                            @Html.DisplayName("Catergory")
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TargetTotal)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CurrentTotal)
-                        </th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tbody>
-
-                    @foreach (var item in Model)
-                    {
+           
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover dataTable jq-data">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.HouseHold.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.TargetTotal)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CurrentTotal)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
+                            <th>
+                                @Html.DisplayNameFor(model => model.HouseHold)
+                            </th>
+                            <th>
+                                @Html.DisplayName("Catergory")
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TargetTotal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CurrentTotal)
+                            </th>
+                            <th></th>
                         </tr>
 
+                    </thead>
+                    <tbody>
 
-                    }
-                </tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HouseHold.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TargetTotal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CurrentTotal)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
                 </table>
+
+            </div>
 
         </div>
     </div>

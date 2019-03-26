@@ -20,9 +20,18 @@ namespace Financial.Controllers
         // GET: Accounts
         public ActionResult Index()
         {
-            var accounts = db.Accounts.Include(a => a.HouseHold);
-            var useraccounts = ba.ListUserAccount(User.Identity.GetUserId()).ToList();
-            return View(accounts.ToList());
+          
+            //var accounts = db.Accounts.Include(a => a.HouseHold);
+            //var useraccounts = ba.ListUserAccount(User.Identity.GetUserId()).ToList();
+            
+            //return View(accounts.ToList());
+            var userId = User.Identity.GetUserId();
+            var householdid = db.Users.Find(userId).HouseHoldId;
+
+            var account = db.HouseHolds.Find(householdid).Accounts.ToList();
+
+            return View(account.ToList());
+           
         }
 
         // GET: Accounts/Details/5
@@ -53,10 +62,11 @@ namespace Financial.Controllers
         public ActionResult Create()
         {
             var houseId = db.Users.Find(User.Identity.GetUserId()).HouseHoldId;
-            var newaccount = new Account
+            var newaccount = new Account 
             {
                 HouseHoldId = (int)houseId
             };
+            
             return View(newaccount);
         }
 
@@ -71,12 +81,11 @@ namespace Financial.Controllers
             {
                 db.Accounts.Add(account);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
             var house = hou.ListUserHouse();
 
             ViewBag.HouseHoldId = new SelectList( house, "Id", "Description", account.HouseHoldId);
-            return View(account);
+            return RedirectToAction("Index");
         }
 
         // GET: Accounts/Edit/5

@@ -33,7 +33,7 @@
     <link href="~/Content/style.css" rel="stylesheet" />
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="~/Content/all-themes.css" rel="stylesheet" />
-
+    <link href="~/Content/dataTables.bootstrap.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css" />
 
 </head>
@@ -195,9 +195,20 @@
         <aside id="leftsidebar" class="sidebar">
             <!-- User Info -->
             <div class="user-info">
-                <div class="image">
-                    <img src="~/images/default.jpg" width="48" height="48" alt="User" />
-                </div>
+                @if (user.AvatarPath == null)
+                {
+                    <div class="image">
+                        <img src="~/images/default.jpg" width="48" height="48" alt="User" />
+                    </div>
+                }
+                else
+                {
+                    <div class="image">
+                        <img src="@user.AvatarPath" width="48" height="48" alt="User" />
+                    </div>
+
+                }
+
                 <div class="info-container">
                     @if (user != null)
                     {
@@ -263,12 +274,6 @@
                         <a href="@Url.Action("Index","Budgets")">
                             <i class="material-icons">attach_money</i>
                             <span>Budget</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="@Url.Action("Index","BudgetItems")">
-                            <i class="material-icons">attach_money</i>
-                            <span>BudgetItems</span>
                         </a>
                     </li>
 
@@ -436,7 +441,7 @@
     <!-- Bootstrap Core Js -->
     <script src="~/Scripts/bootstrap.js"></script>
     <!-- Select Plugin Js -->
-    <script src="~/Scripts/bootstrap-select.js"></script>
+    @*<script src="~/Scripts/bootstrap-select.js"></script>*@
     <!-- Slimscroll Plugin Js -->
     <script src="~/Scripts/jquery.slimscroll.js"></script>
     <!-- Waves Effect Plugin Js -->
@@ -465,8 +470,21 @@
     <script src="~/Scripts/demo.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
     <script src="~/Scripts/modals.js"></script>
-
+    <script src="~/Scripts/chartjs.js"></script>
+    <script src="~/Scripts/flot.js"></script>
     @RenderSection("scripts", required: false)
+
+
+    <script src="~/Scripts/jquery.dataTables.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/buttons.flash.min.js"></script>
+    <script src="~/Scripts/jszip.min.js"></script>
+    <script src="~/Scripts/buttons.html5.min.js"></script>
+    <script src="~/Scripts/vfs_fonts.js"></script>
+    <script src="~/Scripts/buttons.print.min.js"></script>
+    <script src="~/Scripts/pdfmake.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('.jq-data').DataTable();

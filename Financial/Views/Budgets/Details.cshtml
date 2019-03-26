@@ -1,6 +1,6 @@
 ﻿@using Financial.Models
 @using Microsoft.AspNet.Identity
-
+@model Budget
 @{
     ViewBag.Title = "Details";
     var currentuserId = HttpContext.Current.User.Identity.GetUserId();
@@ -13,24 +13,17 @@
     <div class="container-fluid">
         <div class="block-header">
             <div class="row">
-                <div class="col-md-4">
-                    <h4>Budgets</h4>
+                <div class="col-md-4 card col-md-offset-4">
+                    <h4 class="text-center">Budgets Details</h4>
                     <hr />
                     <dl class="dl-horizontal">
+
                         <dt>
-                            @Html.DisplayNameFor(model => model.HouseHold.Description)
+                            @Html.DisplayName("Name")
                         </dt>
 
                         <dd>
-                            @Html.DisplayFor(model => model.HouseHold.Description)
-                        </dd>
-
-                        <dt>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </dt>
-
-                        <dd>
-                            @Html.DisplayFor(model => model.Name)
+                            @Html.Display("Name")
                         </dd>
 
                         <dt>
@@ -58,74 +51,159 @@
                         </dd>
 
                     </dl>
-                    <p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                        @Html.ActionLink("Back to List", "Index")
-                    </p>
+                   
                 </div>
-                <div class="col-md-8">
-                    <p>
-                        <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Budget Item</button>
-
-                    </p>
-                    <table class="table jq-data">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.HouseHold)
-                                </th>
-                                <th>
-                                    @Html.DisplayName("Catergory")
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Description)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TargetTotal)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CurrentTotal)
-                                </th>
-                                <th></th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-
-                            @foreach (var item in Model)
-                            {
+                
+                
+            </div>
+            <div class="row">
+                <div class="col-md-10 card clearfix col-md-offset-1">
+                    <div class="header">
+                        <h2>
+                            BUDGET ITEMS
+                        </h2>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            @Html.ActionLink("Back to List", "Index")
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <button class="btn bg-red waves-effect" style="float: right;" data-target="#addTransaction" data-toggle="modal">Add Budget Item</button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover dataTable js-exportable jq-data">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.HouseHold.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TargetTotal)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CurrentTotal)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                    </td>
+
+                                    <th>
+                                        @Html.DisplayName("Catergory")
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TargetTotal)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CurrentTotal)
+                                    </th>
                                 </tr>
 
+                            </thead>
+                            <tbody>
 
-                            }
-                        </tbody>
-                    </table>
+                                @foreach (var item in Model.BudgetItems)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TargetTotal)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CurrentTotal)
+                                        </td>
+                                       
+                                    </tr>
+
+
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
 
                 </div>
             </div>
-           
         </div>
     </div>
 </section>
 
+<div id="addTransaction" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-color="red">&times;</button>
+                <h4 class="modal-title" style="text-align:center">Add a Transaction</h4>
+            </div>
+            <div class="modal-body">
+
+
+
+                @using (Html.BeginForm("Create", "BudgetItems", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("BudgetId", Model.Id)
+                    {
+
+                        <div class="form-horizontal">
+                            <h4>BudgetItem</h4>
+                            <hr />
+                            <div class="form-group">
+                                @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Editor("Description", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("TargetTotal", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Editor("TargetTotal", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.Label("CurrentTotal", htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.Editor("CurrentTotal", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-default" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

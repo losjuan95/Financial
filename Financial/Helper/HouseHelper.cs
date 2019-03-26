@@ -100,9 +100,10 @@ namespace Financial.Helper
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var householdid = db.Users.Find(userId).HouseHoldId;
-
+            
             var bud = db.Budgets.Find(householdid).BudgetItems.ToList();
 
+           
             return (bud);
         }
         //TODO
@@ -115,5 +116,7 @@ namespace Financial.Helper
             
         //    return (mem);
         //}
+
+     
     }
 }

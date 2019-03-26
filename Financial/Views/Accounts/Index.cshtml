@@ -5,66 +5,167 @@
 
 }
 
-<section class="content">
-    <div class="container-fluid">
+<section class="content clearfix">
+    <div class="container-fluid card">
+        <div class="header">
+            <h2>
+                ACCOUNTS
+            </h2>
+            <ul class="header-dropdown m-r--5">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="material-icons">more_vert</i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+
+                        <li>
+                            <a href="javascript:void(0);">
+                                @Html.ActionLink("Create New", "Create")
+                                <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Transaction</button>
+
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
         <div class="block-header">
-            <p>
-                @Html.ActionLink("Create New", "Create")
-            </p>
-            <table class="table jq-data">
-                <thead>
-                    <tr>
-                        
-                        <th>
-                            @Html.DisplayName("Bank Account")
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.InitialBalance)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CurrentBalance)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ReconciledBalance)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.LowBalanceLimit)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                    @foreach (var item in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover dataTable js-exportable jq-data">
+                    <thead>
                         <tr>
-                           
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.InitialBalance)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CurrentBalance)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReconciledBalance)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LowBalanceLimit)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
+
+                            <th>
+                                @Html.DisplayName("Bank Account")
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.InitialBalance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CurrentBalance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ReconciledBalance)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LowBalanceLimit)
+                            </th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InitialBalance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CurrentBalance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReconciledBalance)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LowBalanceLimit)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </section>
 
+<div id="addTransaction" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" data-color="red">&times;</button>
+                <h4 class="modal-title" style="text-align:center">Add an Account</h4>
+            </div>
+            <div class="modal-body">
+
+                @using (Html.BeginForm("Create", "Accounts", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("HouseHoldId")
+
+
+                    <div class="form-horizontal">
+                        <h4>Account</h4>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="input-group">
+                            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="input-group">
+                            @Html.Label("InitialBalance", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("InitialBalance", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="input-group">
+                            @Html.Label("CurrentBalance", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("CurrentBalance", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="input-group">
+                            @Html.Label("ReconciledBalance", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("ReconciledBalance", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="input-group">
+                            @Html.Label("LowBalanceLimit", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.Editor("LowBalanceLimit", new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

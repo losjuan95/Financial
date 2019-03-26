@@ -54,11 +54,10 @@ namespace Financial.Controllers
             {
                 db.BudgetItems.Add(budgetItem);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
-            return View(budgetItem);
+            return RedirectToAction("Details", "Budgets", new { id = budgetItem.BudgetId });
         }
 
         // GET: BudgetItems/Edit/5

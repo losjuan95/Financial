@@ -13,11 +13,11 @@
 }
 
 <section class="content">
-    <div class="container-fluid">
+    <div class="container-fluid ">
         <div class="block-header">
             <div class="row">
-                <div class="col-md-4">
-                    <h4>Account</h4>
+                <div class="col-md-4 card col-md-offset-4">
+                    <h4 class="text-center">Account</h4>
                     <hr />
                     <dl class="dl-horizontal">
                         <dt>
@@ -69,20 +69,42 @@
                         </dd>
 
                     </dl>
-                    <p>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                        @Html.ActionLink("Back to List", "Index")
-                    </p>
-
+                  
                 </div>
-                <div class="col-md-8">
-                   
-                    <p>
-                        @*@Html.ActionLink("Create New", "Create")*@
-                        <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal" >Add Transaction</button>
+            </div>
+            <div class="row">
+                <div class="col-md-10 card clearfix col-md-offset-1">
+                    <div class="header">
+                        <h2>
+                            TRANSACTIONS
+                        </h2>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            @Html.ActionLink("Back to List", "Index")
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Transaction</button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
 
-                    </p>
-                    <table class="table jq-data">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable jq-data">
                         <thead>
                             <tr>
                                 <th>
@@ -129,8 +151,8 @@
 
                     </table>
                 </div>
-            </div>
 
+            </div>
 
 
         </div>
