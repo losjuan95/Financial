@@ -77,14 +77,17 @@ namespace Financial.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,HouseHoldId,InitialBalance,CurrentBalance,ReconciledBalance,LowBalanceLimit")] Account account)
         {
+           
+            
             if (ModelState.IsValid)
             {
+             
                 db.Accounts.Add(account);
                 db.SaveChanges();
             }
-            var house = hou.ListUserHouse();
+            
 
-            ViewBag.HouseHoldId = new SelectList( house, "Id", "Description", account.HouseHoldId);
+            ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description", account.HouseHoldId);
             return RedirectToAction("Index");
         }
 

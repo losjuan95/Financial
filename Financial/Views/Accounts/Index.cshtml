@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<Financial.Models.Account>
-
+@using Financial.Controllers
 @{
     ViewBag.Title = "Index";
-
 }
 
 <section class="content clearfix">
@@ -20,9 +19,7 @@
 
                         <li>
                             <a href="javascript:void(0);">
-                                @Html.ActionLink("Create New", "Create")
-                                <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Transaction</button>
-
+                                <button class="btn bg-red waves-effect" data-target="#addTransaction" data-toggle="modal">Add Account</button>
                             </a>
                         </li>
                     </ul>
@@ -62,8 +59,7 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
+                                    @Html.DisplayFor(modelItem => item.Name)</td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.InitialBalance)
                                 </td>
@@ -105,59 +101,71 @@
                 @using (Html.BeginForm("Create", "Accounts", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.Hidden("HouseHoldId")
+                    @Html.Hidden("HouseHoldId", Model.FirstOrDefault().HouseHoldId)
+                 
+                    <hr />
+                    
+                    <div class="input-group">
+                        <div class="col-md-5">
+                            @Html.Label("Name:", htmlAttributes: new { @class = "control-label col-md-2" })
 
-
-                    <div class="form-horizontal">
-                        <h4>Account</h4>
-                        <hr />
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="input-group">
-                            @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
                         </div>
-
-                        <br />
-                        <div class="input-group">
-                            @Html.Label("InitialBalance", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("InitialBalance", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <br />
-
-                        <div class="input-group">
-                            @Html.Label("CurrentBalance", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("CurrentBalance", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <br />
-
-                        <div class="input-group">
-                            @Html.Label("ReconciledBalance", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("ReconciledBalance", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <br />
-
-                        <div class="input-group">
-                            @Html.Label("LowBalanceLimit", htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.Editor("LowBalanceLimit", new { htmlAttributes = new { @class = "form-control" } })
-                            </div>
-                        </div>
-                        <br />
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
-                            </div>
+                        <div class="col-md-5 form-line">
+                            @Html.Editor("Name", new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
+
+                    <br />
+                    <div class="input-group">
+                        <div class="col-md-5">
+                            @Html.Label("Initial Balance:", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        </div>
+                        <div class="col-md-5 form-line">
+                            @Html.Editor("InitialBalance", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="input-group">
+                        <div class="col-md-5">
+                            @Html.Label("Current Balance:", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        </div>
+                        <div class="col-md-5 form-line">
+                            @Html.Editor("CurrentBalance", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="input-group">
+                        <div class="col-md-5">
+                            @Html.Label("Reconciled Balance:", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        </div>
+                        <div class="col-md-5 form-line">
+                            @Html.Editor("ReconciledBalance", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="input-group">
+                        <div class="col-md-5">
+                            @Html.Label("Low Balance Limit:", htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        </div>
+                        <div class="col-md-5 form-line">
+                            @Html.Editor("LowBalanceLimit", new { htmlAttributes = new { @class = "form-control " } })
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" style="float:right;" class="btn btn-success" />
+                        </div>
+                    </div>
+
 
                 }
 
