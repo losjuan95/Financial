@@ -15,7 +15,7 @@ namespace Financial.Controllers
     public class AccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private BankAccountHelper ba = new BankAccountHelper();
+        static BankAccountHelper ba = new BankAccountHelper();
         private HouseHelper hou = new HouseHelper();
         // GET: Accounts
         public ActionResult Index()
@@ -29,7 +29,10 @@ namespace Financial.Controllers
             var householdid = db.Users.Find(userId).HouseHoldId;
 
             var account = db.HouseHolds.Find(householdid).Accounts.ToList();
-
+            if(account == null)
+            {
+                return RedirectToAction("Create");
+            }
             return View(account.ToList());
            
         }
@@ -75,19 +78,29 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,HouseHoldId,InitialBalance,CurrentBalance,ReconciledBalance,LowBalanceLimit")] Account account)
+        //public ActionResult Create([Bind(Include = "Id,Name,HouseHoldId,InitialBalance,CurrentBalance,ReconciledBalance,LowBalanceLimit")] Account account)
+        public ActionResult Create(string Name,int HouseHoldId, string InitialBalance, string CurrentBalance, string ReconciledBalance, string LowBalanceLimit) 
         {
-           
-            
-            if (ModelState.IsValid)
+            var account = new Account
             {
-             
-                db.Accounts.Add(account);
-                db.SaveChanges();
-            }
+                Name = Name,
+                HouseHoldId = HouseHoldId,
+                InitialBalance = Convert.ToDecimal(InitialBalance),
+                CurrentBalance = Convert.ToDecimal(CurrentBalance),
+                ReconciledBalance = Convert.ToDecimal(ReconciledBalance),
+                LowBalanceLimit = Convert.ToDecimal(LowBalanceLimit)
+
+            };
+            db.Accounts.Add(account);
+            db.SaveChanges();
+            //if (ModelState.IsValid)
+            //{
+
+            //    db.Accounts.Add(account);
+            //    db.SaveChanges();
+            //}
             
 
-            ViewBag.HouseHoldId = new SelectList(db.HouseHolds, "Id", "Description", account.HouseHoldId);
             return RedirectToAction("Index");
         }
 

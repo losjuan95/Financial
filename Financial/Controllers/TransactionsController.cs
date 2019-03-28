@@ -62,6 +62,16 @@ namespace Financial.Controllers
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
 
+                var account = db.Accounts.Find(transaction.AccountId);
+                if(transaction.Type == Enumerations.TransactionType.Deposit)
+                {
+                    account.CurrentBalance += transaction.Amount;
+                }
+                else
+                {
+                    account.CurrentBalance -= transaction.Amount;
+                }
+                db.SaveChanges();
             }
             else
             {

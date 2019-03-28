@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -192,6 +193,7 @@
     <Compile Include="Helper\BankAccountHelper.cs" />
     <Compile Include="Helper\BudgetHelper.cs" />
     <Compile Include="Helper\BudgetItemHelper.cs" />
+    <Compile Include="Helper\ChartHelper.cs" />
     <Compile Include="Helper\FileUploadValidator.cs" />
     <Compile Include="Helper\HouseHelper.cs" />
     <Compile Include="Helper\notificationhelper.cs" />
@@ -202,6 +204,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BudgetItem.cs" />
     <Compile Include="Models\Budget.cs" />
+    <Compile Include="Models\DataPoints.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\HouseHold.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -250,6 +253,7 @@
     <Content Include="Scripts\dataTables.bootstrap.js" />
     <Content Include="Scripts\dataTables.buttons.min.js" />
     <Content Include="Scripts\flot.js" />
+    <Content Include="Scripts\jquery.canvasjs.min.js" />
     <Content Include="Scripts\jquery.dataTables.js" />
     <Content Include="Scripts\jszip.min.js" />
     <Content Include="Scripts\modals.js" />

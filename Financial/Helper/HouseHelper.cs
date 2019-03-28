@@ -11,7 +11,7 @@ namespace Financial.Helper
 
     public class HouseHelper
     {
-        ApplicationDbContext db = new ApplicationDbContext();
+        static  ApplicationDbContext db = new ApplicationDbContext();
 
         public bool IsUserOnHouse(string userId, int householdid)
         {
@@ -61,6 +61,15 @@ namespace Financial.Helper
             return (household);
         }
 
+        public int? GetUserHouseId()
+        {
+            var userid = HttpContext.Current.User.Identity.GetUserId();
+            var houseId = db.Users.Find(userid).HouseHoldId;
+            
+            
+            return (houseId);
+        }
+
         public ICollection<Budget> ListUserBudgets()
         {
             var user = HttpContext.Current.User.Identity.GetUserId();
@@ -100,23 +109,27 @@ namespace Financial.Helper
         {
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var householdid = db.Users.Find(userId).HouseHoldId;
-            
-            var bud = db.Budgets.Find(householdid).BudgetItems.ToList();
+
+            var bud = db.HouseHolds.Find(householdid).Budgets.SelectMany(b => b.BudgetItems).ToList();
 
            
             return (bud);
         }
         //TODO
-        //public ICollection<HouseHold> ListMembers()
-        //{
-        //    var userId = HttpContext.Current.User.Identity.GetUserId();
-        //    var householdid = db.Users.Find(userId).HouseHoldId;
+        public List<ApplicationUser> ListMembers()
+        {
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var householdid = db.Users.Find(userId).HouseHoldId;
 
-        //    var mem = db.HouseHolds.Find(householdid).Members.ToList();
-            
-        //    return (mem);
-        //}
+            var mem = db.HouseHolds.Find(householdid).Members.ToList();
 
-     
+            return (mem);
+        }
+
+        public static List<ApplicationUser> MemberList(int id)
+        {
+            return db.HouseHolds.Find(id).Members.ToList();
+        }
+
     }
 }

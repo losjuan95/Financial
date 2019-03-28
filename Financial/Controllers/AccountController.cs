@@ -13,7 +13,7 @@ using System.Web.Configuration;
 using System.Net.Mail;
 using Financial.Helper;
 using Financial.Enumerations;
-
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Financial.Controllers
 {
@@ -94,7 +94,21 @@ namespace Financial.Controllers
 
                 case SignInStatus.Success:
                     if (string.IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
+                    {
+                        var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                        var user = userManager.FindByEmail(model.Email);
+
+                        if (user.HouseHoldId != null)
+                        {
+                            return RedirectToAction("Index", "Home");
+
+                        }
+                        else
+                        {
+                            return RedirectToAction("Lobby", "Home");
+                        }
+                    }
+                       
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -215,6 +229,7 @@ namespace Financial.Controllers
 
                 var user = new ApplicationUser
                 {
+                    //Id = User.Identity.GetUserId(),
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
@@ -223,6 +238,7 @@ namespace Financial.Controllers
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 var userid = user.Id;
+
 
                 rolehelper.AddUserToRole(userid, RoleName.Member);
 

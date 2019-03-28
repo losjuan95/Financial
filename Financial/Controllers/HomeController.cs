@@ -2,10 +2,12 @@
 using Financial.Models;
 using Financial.ViewModels;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,10 +16,24 @@ namespace Financial.Controllers
     public class HomeController : Controller
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        UserRolesHelpers roleHelper = new UserRolesHelpers();
+        BudgetHelper bHelper = new BudgetHelper();
 
         [Authorize(Roles = "HOH, Member")]
         public ActionResult Index()
         {
+            List<DataPoints> dataPoints = new List<DataPoints>();
+
+            dataPoints.Add(new DataPoints("Utilities", 1));
+            dataPoints.Add(new DataPoints("Food", 2));
+            dataPoints.Add(new DataPoints("Insurance", 4));
+            dataPoints.Add(new DataPoints("Housing", 4));
+            dataPoints.Add(new DataPoints("Personal", 9));
+            dataPoints.Add(new DataPoints("Savings", 11));
+            dataPoints.Add(new DataPoints("Debt", 13));
+
+            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+
             return View();
         }
 
@@ -36,6 +52,21 @@ namespace Financial.Controllers
             return View(guests);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]    
+        public async Task<ActionResult> LeaveHouse()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+
+            user.HouseHoldId = null;
+            db.SaveChanges();
+            
+            roleHelper.RemoveUserFromRole(userId, "Member");
+           await AuthorizeHelper.ReauthorizeUserAsync(userId);
+
+            return RedirectToAction("Lobby");
+        }
         public ActionResult LandingPage()
         {
             return View();

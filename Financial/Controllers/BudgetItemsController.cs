@@ -48,16 +48,19 @@ namespace Financial.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,TargetTotal,CurrentTotal,BudgetId")] BudgetItem budgetItem)
+        public ActionResult Create(string biName, string biDescription, string biTargetTotal,int BudgetId)
         {
-            if (ModelState.IsValid)
+            var item = new BudgetItem
             {
-                db.BudgetItems.Add(budgetItem);
-                db.SaveChanges();
-            }
+                Name = biName,
+                Description = biDescription,
+                TargetTotal = Convert.ToDecimal(biTargetTotal),
+                BudgetId = BudgetId
 
-            ViewBag.BudgetId = new SelectList(db.Budgets, "Id", "Name", budgetItem.BudgetId);
-            return RedirectToAction("Details", "Budgets", new { id = budgetItem.BudgetId });
+            };
+            db.BudgetItems.Add(item);
+            db.SaveChanges();
+            return RedirectToAction("Details", "Budgets", new { id = BudgetId });
         }
 
         // GET: BudgetItems/Edit/5

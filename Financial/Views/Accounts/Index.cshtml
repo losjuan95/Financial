@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<Financial.Models.Account>
-@using Financial.Controllers
+@using Financial.Helper
+@using Microsoft.AspNet.Identity;
+
 @{
     ViewBag.Title = "Index";
+    var userId = HttpContext.Current.User.Identity.GetUserId();
+    var houseHelper = new HouseHelper();
 }
 
 <section class="content clearfix">
@@ -59,7 +63,8 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Name)</td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.InitialBalance)
                                 </td>
@@ -101,10 +106,14 @@
                 @using (Html.BeginForm("Create", "Accounts", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
-                    @Html.Hidden("HouseHoldId", Model.FirstOrDefault().HouseHoldId)
-                 
-                    <hr />
+
                     
+                        @Html.Hidden("HouseHoldId", houseHelper.GetUserHouseId())
+
+                    
+
+                    <hr />
+
                     <div class="input-group">
                         <div class="col-md-5">
                             @Html.Label("Name:", htmlAttributes: new { @class = "control-label col-md-2" })

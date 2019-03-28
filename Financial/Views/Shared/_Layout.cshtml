@@ -7,6 +7,7 @@
     var db = new ApplicationDbContext();
     var userid = HttpContext.Current.User.Identity.GetUserId();
     var user = db.Users.Find(userid);
+    var Ba = new BankAccountHelper();
 }
 
 <!DOCTYPE html>
@@ -265,6 +266,8 @@
                             <span>Lobby</span>
                         </a>
                     </li>
+                  
+
                     <li class="active">
                         <a href="@Url.Action("Index","Accounts")">
                             <i class="material-icons">attach_money</i>
@@ -453,6 +456,7 @@
     <script src="~/Scripts/raphael.min.js"></script>
     <script src="~/Scripts/morris.js"></script>
     <!-- ChartJs -->
+    <script src="~/Scripts/jquery.canvasjs.min.js"></script>
     <script src="~/Scripts/Chart.bundle.js"></script>
     <!-- Flot Charts Plugin Js -->
     <script src="~/Scripts/jquery.flot.js"></script>
