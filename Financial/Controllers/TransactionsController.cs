@@ -11,11 +11,13 @@ using Microsoft.AspNet.Identity;
 
 namespace Financial.Controllers
 {
+
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Transactions
+        [Authorize(Roles = "HOH, Member")]
         public ActionResult Index()
         {
             var transactions = db.Transactions.Include(t => t.Account).Include(t => t.BudgetItem).Include(t => t.Enteredby);
@@ -23,6 +25,7 @@ namespace Financial.Controllers
         }
 
         // GET: Transactions/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -88,6 +91,7 @@ namespace Financial.Controllers
         }
 
         // GET: Transactions/Edit/5
+        [Authorize(Roles = "HOH, Member")]
         public ActionResult Edit(int? id)
         {
             if (id == null)

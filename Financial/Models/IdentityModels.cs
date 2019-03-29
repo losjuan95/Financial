@@ -70,5 +70,6 @@ namespace Financial.Models
         public DbSet<Notification> Notifications { get; set; }
 
         public DbSet<Invitation> Invitations { get; set; }
+        public object Households { get; internal set; }
     }
 }

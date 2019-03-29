@@ -244,6 +244,30 @@
             </div>
             <!-- #User Info -->
             <!-- Menu -->
+            @if (user.HouseHoldId == null)
+            {
+                <div class="menu">
+                    <ul class="list">
+                        <li class="header">MAIN NAVIGATION</li>
+                        <li class="active">
+                            <a href="@Url.Action("Index","Manage")">
+                                <i class="material-icons">person</i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+
+
+                        <li class="active">
+                            <a href="@Url.Action("Lobby","Home")">
+                                <i class="material-icons">add_to_queue</i>
+                                <span>Lobby</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            }
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
@@ -266,7 +290,7 @@
                             <span>Lobby</span>
                         </a>
                     </li>
-                  
+
 
                     <li class="active">
                         <a href="@Url.Action("Index","Accounts")">
