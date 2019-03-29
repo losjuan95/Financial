@@ -24,13 +24,15 @@ namespace Financial.Controllers
         {
             List<DataPoints> dataPoints = new List<DataPoints>();
 
-            dataPoints.Add(new DataPoints("Utilities", 1));
-            dataPoints.Add(new DataPoints("Food", 2));
-            dataPoints.Add(new DataPoints("Insurance", 4));
-            dataPoints.Add(new DataPoints("Housing", 4));
-            dataPoints.Add(new DataPoints("Personal", 9));
-            dataPoints.Add(new DataPoints("Savings", 11));
-            dataPoints.Add(new DataPoints("Debt", 13));
+            List<Budget> Budgets = db.Budgets.ToList();
+
+            dataPoints.Add(new DataPoints("Utilities", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Utilities").Id))));
+            dataPoints.Add(new DataPoints("Food", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Food").Id))));
+            dataPoints.Add(new DataPoints("Insurance", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Insurance").Id))));
+            dataPoints.Add(new DataPoints("Housing", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Housing").Id))));
+            dataPoints.Add(new DataPoints("Personal", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Personal").Id))));
+            dataPoints.Add(new DataPoints("Savings", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Savings").Id))));
+            dataPoints.Add(new DataPoints("Debt", Convert.ToDouble(BudgetHelper.GetBudgetActual(Budgets.FirstOrDefault(b => b.Name == "Debt").Id))));
 
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
 
